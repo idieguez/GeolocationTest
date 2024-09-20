@@ -15,10 +15,17 @@
             font-size: 16px;
             cursor: pointer;
         }
-        .coords {
+        .coords, .maps-link {
             margin-top: 20px;
             font-size: 18px;
             color: #333;
+        }
+        .maps-link a {
+            color: blue;
+            text-decoration: none;
+        }
+        .maps-link a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -26,24 +33,34 @@
     <h1>Obtener Posición GPS</h1>
     <button onclick="obtenerPosicion()">Obtener Posición Actual</button>
     <div class="coords" id="resultado"></div>
+    <div class="maps-link" id="maps-link"></div>
 
     <script>
         function obtenerPosicion() {
             const resultado = document.getElementById('resultado');
+            const mapsLink = document.getElementById('maps-link');
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function (position) {
                         const lat = position.coords.latitude;
                         const lon = position.coords.longitude;
+                        
+                        // Mostrar las coordenadas
                         resultado.innerHTML = `Latitud: ${lat}, Longitud: ${lon}`;
+                        
+                        // Crear enlace de Google Maps
+                        const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+                        mapsLink.innerHTML = `<a href="${mapsUrl}" target="_blank">Ver en Google Maps</a>`;
                     },
                     function (error) {
                         resultado.innerHTML = `Error al obtener la geolocalización: ${error.message}`;
+                        mapsLink.innerHTML = ''; // Limpiar el enlace de Google Maps si hay error
                     }
                 );
             } else {
                 resultado.innerHTML = "Geolocalización no es soportada por este navegador.";
+                mapsLink.innerHTML = '';
             }
         }
     </script>
