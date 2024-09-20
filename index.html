@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capturar Posición GPS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .coords {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Obtener Posición GPS</h1>
+    <button onclick="obtenerPosicion()">Obtener Posición Actual</button>
+    <div class="coords" id="resultado"></div>
+
+    <script>
+        function obtenerPosicion() {
+            const resultado = document.getElementById('resultado');
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        resultado.innerHTML = `Latitud: ${lat}, Longitud: ${lon}`;
+                    },
+                    function (error) {
+                        resultado.innerHTML = `Error al obtener la geolocalización: ${error.message}`;
+                    }
+                );
+            } else {
+                resultado.innerHTML = "Geolocalización no es soportada por este navegador.";
+            }
+        }
+    </script>
+</body>
+</html>
